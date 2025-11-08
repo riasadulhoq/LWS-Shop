@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { getImageUrl } from "../utils/shop-utility";
+import Rating from "./Rating";
 
 export default function ProductCard({ product }) {
   const [cartProducts, setCartProducts] = useState([]);
@@ -40,13 +41,7 @@ export default function ProductCard({ product }) {
         <h3 className="font-medium">{product.title} </h3>
         <div className="flex items-center justify-between">
           <div className="flex items-center my-1">
-            <div className="flex text-yellow-400">
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
-              <span>★</span>
-              <span className="text-gray-300">★</span>
-            </div>
+            <Rating value={product.rating} />
             <span className="text-xs text-gray-500 ml-1">
               {product.rating}/5
             </span>
