@@ -1,32 +1,12 @@
-import { useState } from "react";
+import { useContext } from "react";
+import { ShopContext } from "../context";
 import { getImageUrl } from "../utils/shop-utility";
 import Rating from "./Rating";
 
 export default function ProductCard({ product }) {
-  const [cartProducts, setCartProducts] = useState([]);
-  console.log(cartProducts);
-  const [isAddedToCart, setIsAddedToCart] = useState(false);
-  const [quantity, setQuantity] = useState(product.quantity);
   const imageUrl = getImageUrl(product.image);
 
-  const handleUpdateCart = (productObj) => {
-    const found = cartProducts.find((product) => {
-      return (product.id = productObj.id);
-    });
-
-    if (!found) {
-      setCartProducts([...cartProducts, productObj]);
-      setQuantity(quantity - 1);
-    } else {
-      const newCartProducts = cartProducts.filter((product) => {
-        return product.id != productObj.id;
-      });
-      setCartProducts(newCartProducts);
-      setQuantity(quantity + 1);
-    }
-
-    setIsAddedToCart(!isAddedToCart);
-  };
+  const { handleUpdateCart } = useContext(ShopContext);
 
   return (
     <div className="bg-gray-100 rounded-lg overflow-hidden transition-transform hover:scale-[1.02] duration-300">
@@ -46,7 +26,9 @@ export default function ProductCard({ product }) {
               {product.rating}/5
             </span>
           </div>
-          <span className="text-xs text-gray-700">({quantity} pcs left)</span>
+          <span className="text-xs text-gray-700">
+            ({product.quantity} pcs left)
+          </span>
         </div>
         <div className="flex items-center">
           <p className="font-bold">${product.currentPrice}</p>
@@ -55,7 +37,7 @@ export default function ProductCard({ product }) {
           </p>
         </div>
 
-        {isAddedToCart ? (
+        {product.isAddedToCart ? (
           <button
             className="w-full mt-2 bg-red-800 py-1 text-gray-100 rounded flex items-center justify-center"
             onClick={() => handleUpdateCart(product)}
@@ -64,7 +46,7 @@ export default function ProductCard({ product }) {
           </button>
         ) : (
           <button
-            disabled={quantity === 0}
+            disabled={product.quantity === 0}
             className="disabled:bg-gray-700 disabled:text-gray-400 disabled:cursor-not-allowed w-full mt-2 bg-gray-800 py-1 text-gray-100 rounded flex items-center justify-center active:translate-y-1 transition-all active:bg-gray-900"
             onClick={() => handleUpdateCart(product)}
           >

@@ -1,8 +1,10 @@
-import { getAllProducts } from "../data/products";
+import { useContext } from "react";
+import { ShopContext } from "../context";
 import ProductCard from "./ProductCard";
 
 export default function ProductList() {
-  const productList = getAllProducts();
+  const { productList } = useContext(ShopContext);
+
   return (
     <div className="lg:col-span-2">
       <div className="flex items-center justify-between mb-6">
