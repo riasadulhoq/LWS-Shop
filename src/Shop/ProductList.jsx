@@ -7,31 +7,28 @@ export default function ProductList() {
 
   const handleChange = (e) => {
     const selected = e.target.value;
-    if (selected === "mostPopular") {
-      const mostPopular = [...productList].sort((a, b) => b.rating - a.rating);
-      // console.log(mostPopular);
-      return setProductList(mostPopular);
+
+    let sortedProductList;
+
+    if (!selected) {
+      sortedProductList = [...productList];
+      console.log(sortedProductList);
+    } else if (selected === "mostPopular") {
+      sortedProductList = [...productList].sort((a, b) => b.rating - a.rating);
     } else if (selected === "newest") {
-      const newest = [...productList].sort(
+      sortedProductList = [...productList].sort(
         (a, b) => new Date(b.createdDate) - new Date(a.createdDate)
       );
-      // console.log(newest);
-      return setProductList(newest);
     } else if (selected === "lowToHigh") {
-      const lowToHigh = [...productList].sort(
+      sortedProductList = [...productList].sort(
         (a, b) => a.currentPrice - b.currentPrice
       );
-      // console.log(lowToHigh);
-      return setProductList(lowToHigh);
     } else if (selected === "highToLow") {
-      const highToLow = [...productList].sort(
+      sortedProductList = [...productList].sort(
         (a, b) => b.currentPrice - a.currentPrice
       );
-      // console.log(highToLow);
-      return setProductList(highToLow);
-    } else {
-      return productList;
     }
+    setProductList(sortedProductList);
   };
   return (
     <div className="lg:col-span-2">
