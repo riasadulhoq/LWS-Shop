@@ -1,11 +1,76 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ShopContext } from "../context";
 import { getImageUrl } from "../utils/shop-utility";
 
 export default function CartProduct({ product }) {
-  const [cartQuantity, setCartQuantity] = useState(1);
-  const { handleUpdateCart } = useContext(ShopContext);
+  //   console.log(product);
+  const {
+    productList,
+    setProductList,
+    handleUpdateCart,
+    cartProducts,
+    setCartProducts,
+    subTotal,
+    setSubTotal,
+  } = useContext(ShopContext);
   const imageUrl = getImageUrl(product.image);
+
+  const increaseCartQuantity = (productObj) => {
+    if (productObj.cartQuantity < productObj.quantity) {
+      const newProductList = productList.map((product) => {
+        if (product.id === productObj.id) {
+          return {
+            ...product,
+            quantity: product.quantity - 1,
+          };
+        } else {
+          return product;
+        }
+      });
+      setProductList(newProductList);
+      const newCartProducts = cartProducts.map((product) => {
+        if (product.id === productObj.id) {
+          return {
+            ...product,
+            cartQuantity: product.cartQuantity + 1,
+          };
+        } else {
+          return product;
+        }
+      });
+      setCartProducts(newCartProducts);
+      setSubTotal(subTotal + productObj.currentPrice);
+    }
+  };
+
+  const reduceCartQuantity = (productObj) => {
+    if (productObj.cartQuantity > 1) {
+      const newProductList = productList.map((product) => {
+        if (product.id === productObj.id) {
+          return {
+            ...product,
+            quantity: product.quantity + 1,
+          };
+        } else {
+          return product;
+        }
+      });
+      setProductList(newProductList);
+
+      const newCartProducts = cartProducts.map((product) => {
+        if (product.id === productObj.id) {
+          return {
+            ...product,
+            cartQuantity: product.cartQuantity - 1,
+          };
+        } else {
+          return product;
+        }
+      });
+      setCartProducts(newCartProducts);
+      setSubTotal(subTotal - productObj.currentPrice);
+    }
+  };
 
   return (
     <div className="flex items-start space-x-4 pb-4 border-b border-gray-200 mb-4">
@@ -31,11 +96,17 @@ export default function CartProduct({ product }) {
         <div className="flex justify-between items-center mt-2">
           <p className="font-bold">${product.currentPrice}</p>
           <div className="flex items-center space-x-2">
-            <button className="w-6 h-6 bg-gray-100 rounded flex items-center justify-center">
+            <button
+              className="w-6 h-6 bg-gray-100 rounded flex items-center justify-center"
+              onClick={() => reduceCartQuantity(product)}
+            >
               −
             </button>
-            <span className="text-sm">{cartQuantity}</span>
-            <button className="w-6 h-6 bg-gray-100 rounded flex items-center justify-center">
+            <span className="text-sm">{product.cartQuantity}</span>
+            <button
+              className="w-6 h-6 bg-gray-100 rounded flex items-center justify-center"
+              onClick={() => increaseCartQuantity(product)}
+            >
               +
             </button>
           </div>

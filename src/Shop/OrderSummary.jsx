@@ -5,7 +5,7 @@ import PromoIcon from "../SVG/PromoIcon";
 export default function OrderSummary() {
   const { subTotal } = useContext(ShopContext);
 
-  const discount = (subTotal * 0.2).toFixed(2);
+  const discount = (subTotal * 0.2).toFixed(0);
   const deliveryFee =
     subTotal > 1000 ? 50 : subTotal > 500 ? 30 : subTotal > 0 ? 15 : 0;
   return (
