@@ -121,31 +121,3 @@ const productsData = [
 export const getAllProducts = () => {
   return productsData;
 };
-
-export const getSortedProducts = (userSelection) => {
-  if (userSelection === "mostPopular") {
-    const mostPopular = [...productsData].sort((a, b) => b.rating - a.rating);
-    // console.log(mostPopular);
-    return mostPopular;
-  } else if (userSelection === "newest") {
-    const newest = [...productsData].sort(
-      (a, b) => new Date(b.createdDate) - new Date(a.createdDate)
-    );
-    // console.log(newest);
-    return newest;
-  } else if (userSelection === "lowToHigh") {
-    const lowToHigh = [...productsData].sort(
-      (a, b) => a.currentPrice - b.currentPrice
-    );
-    // console.log(lowToHigh);
-    return lowToHigh;
-  } else if (userSelection === "highToLow") {
-    const highToLow = [...productsData].sort(
-      (a, b) => b.currentPrice - a.currentPrice
-    );
-    // console.log(highToLow);
-    return highToLow;
-  } else {
-    return productsData;
-  }
-};

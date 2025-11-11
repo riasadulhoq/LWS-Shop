@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { ShopContext } from "../context";
-import { getSortedProducts } from "../data/products";
 import ProductCard from "./ProductCard";
 
 export default function ProductList() {
@@ -8,8 +7,31 @@ export default function ProductList() {
 
   const handleChange = (e) => {
     const selected = e.target.value;
-    const sortedProductList = getSortedProducts(selected);
-    setProductList(sortedProductList);
+    if (selected === "mostPopular") {
+      const mostPopular = [...productList].sort((a, b) => b.rating - a.rating);
+      // console.log(mostPopular);
+      return setProductList(mostPopular);
+    } else if (selected === "newest") {
+      const newest = [...productList].sort(
+        (a, b) => new Date(b.createdDate) - new Date(a.createdDate)
+      );
+      // console.log(newest);
+      return setProductList(newest);
+    } else if (selected === "lowToHigh") {
+      const lowToHigh = [...productList].sort(
+        (a, b) => a.currentPrice - b.currentPrice
+      );
+      // console.log(lowToHigh);
+      return setProductList(lowToHigh);
+    } else if (selected === "highToLow") {
+      const highToLow = [...productList].sort(
+        (a, b) => b.currentPrice - a.currentPrice
+      );
+      // console.log(highToLow);
+      return setProductList(highToLow);
+    } else {
+      return productList;
+    }
   };
   return (
     <div className="lg:col-span-2">
