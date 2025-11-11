@@ -3,6 +3,9 @@ import ProfileIcon from "./SVG/ProfileIcon";
 import SearchIcon from "./SVG/SearchIcon";
 
 export default function Header() {
+  const handleChange = (e) => {
+    console.log(e.target.value);
+  };
   return (
     <header className="border-b border-gray-200 py-4 px-4 md:px-8">
       <div className="container mx-auto flex items-center justify-between">
@@ -31,6 +34,7 @@ export default function Header() {
               type="text"
               placeholder="Search for products..."
               className="w-full bg-gray-100 rounded-full py-2 px-4 text-sm"
+              onChange={handleChange}
             />
             <span className="absolute right-3 top-2">
               <SearchIcon />
