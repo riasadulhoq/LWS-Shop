@@ -13,6 +13,7 @@ function App() {
 
   const [productList, setProductList] = useState(initialProductList);
   const [cartProducts, setCartProducts] = useState([]);
+  const [showCart, setShowCart] = useState(true);
   const [subTotal, setSubTotal] = useState(0);
 
   const handleUpdateCart = (productObj) => {
@@ -72,14 +73,20 @@ function App() {
           setCartProducts,
           subTotal,
           setSubTotal,
+          showCart,
+          setShowCart,
         }}
       >
         <Announcement />
         <Header />
         <main className="container mx-auto px-4 md:px-8 py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div
+            className={`grid grid-cols-1 gap-8 ${
+              showCart ? "lg:grid-cols-3" : "lg:grid-cols-2"
+            } `}
+          >
             <ProductList />
-            <CartSection />
+            {showCart && <CartSection />}
           </div>
         </main>
         <Newsletter />

@@ -6,7 +6,13 @@ import SearchIcon from "./SVG/SearchIcon";
 
 export default function Header() {
   const [search, setSearch] = useState("");
-  const { productList, setProductList } = useContext(ShopContext);
+  const { productList, setProductList, cartProducts, showCart, setShowCart } =
+    useContext(ShopContext);
+
+  const totalCartQuantity = cartProducts.reduce(
+    (accumulator, cartProduct) => accumulator + cartProduct.cartQuantity,
+    0
+  );
 
   const handleSearch = (e) => {
     const userSearch = e.target.value;
@@ -15,6 +21,10 @@ export default function Header() {
       return product.title.toLowerCase().includes(search.toLowerCase());
     });
     setProductList(searchedProductList);
+  };
+
+  const handleShowCart = () => {
+    setShowCart(!showCart);
   };
 
   return (
@@ -53,8 +63,17 @@ export default function Header() {
             </span>
           </div>
 
-          <a href="#" className="hover:text-gray-500 transition-colors">
+          <a
+            href="#"
+            className="hover:text-gray-500 transition-colors"
+            onClick={handleShowCart}
+          >
             <CartIcon />
+            {cartProducts.length > 0 && (
+              <span className="rounded-full absolute top-[40px] right-[203px] bg-black text-white text-center p-[2px] w-[30px] h-[30px]">
+                {totalCartQuantity}
+              </span>
+            )}
           </a>
 
           <a href="#" className="hover:text-gray-500 transition-colors">
