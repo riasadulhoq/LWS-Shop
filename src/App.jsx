@@ -15,6 +15,8 @@ function App() {
   const [cartProducts, setCartProducts] = useState([]);
   const [showCart, setShowCart] = useState(true);
   const [subTotal, setSubTotal] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchedProductList, setSearchedProductList] = useState([]);
 
   const handleUpdateCart = (productObj) => {
     const found = cartProducts.find((product) => {
@@ -73,6 +75,10 @@ function App() {
           setCartProducts,
           subTotal,
           setSubTotal,
+          searchTerm,
+          setSearchTerm,
+          searchedProductList,
+          setSearchedProductList,
           showCart,
           setShowCart,
         }}
@@ -81,7 +87,7 @@ function App() {
         <Header />
         <main className="container mx-auto px-4 md:px-8 py-8">
           <div
-            className={`grid grid-cols-1 gap-8 ${
+            className={`flex flex-col-reverse lg:grid gap-8 ${
               showCart ? "lg:grid-cols-3" : "lg:grid-cols-2"
             } `}
           >

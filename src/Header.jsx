@@ -1,13 +1,24 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ShopContext } from "./context";
 import CartIcon from "./SVG/CartIcon";
 import ProfileIcon from "./SVG/ProfileIcon";
 import SearchIcon from "./SVG/SearchIcon";
 
 export default function Header() {
-  const [search, setSearch] = useState("");
-  const { productList, setProductList, cartProducts, showCart, setShowCart } =
-    useContext(ShopContext);
+  // console.log(searchTerm);
+  // console.log(searchedProductList);
+
+  const {
+    productList,
+    setProductList,
+    cartProducts,
+    searchTerm,
+    setSearchTerm,
+    searchedProductList,
+    setSearchedProductList,
+    showCart,
+    setShowCart,
+  } = useContext(ShopContext);
 
   const totalCartQuantity = cartProducts.reduce(
     (accumulator, cartProduct) => accumulator + cartProduct.cartQuantity,
@@ -16,11 +27,12 @@ export default function Header() {
 
   const handleSearch = (e) => {
     const userSearch = e.target.value;
-    setSearch(userSearch);
-    const searchedProductList = productList.filter((product) => {
-      return product.title.toLowerCase().includes(search.toLowerCase());
+    setSearchTerm(userSearch);
+
+    const searchedProduct = [...productList].filter((product) => {
+      return product.title.toLowerCase().includes(searchTerm.toLowerCase());
     });
-    setProductList(searchedProductList);
+    setSearchedProductList(searchedProduct);
   };
 
   const handleShowCart = () => {
@@ -55,7 +67,7 @@ export default function Header() {
               type="text"
               placeholder="Search for products..."
               className="w-full bg-gray-100 rounded-full py-2 px-4 text-sm"
-              value={search}
+              value={searchTerm}
               onChange={handleSearch}
             />
             <span className="absolute right-3 top-2">
@@ -68,9 +80,9 @@ export default function Header() {
             className="hover:text-gray-500 transition-colors"
             onClick={handleShowCart}
           >
-            <CartIcon />
+            <CartIcon showCart={showCart} />
             {cartProducts.length > 0 && (
-              <span className="rounded-full absolute top-[40px] right-[203px] bg-black text-white text-center p-[2px] w-[30px] h-[30px]">
+              <span className="rounded-full absolute top-[35px] right-[35px] md:top-[35px] md:right-[80px] lg:top-[40px] lg:right-[203px] bg-black text-white text-center p-[2px] w-[30px] h-[30px]">
                 {totalCartQuantity}
               </span>
             )}

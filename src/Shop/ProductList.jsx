@@ -3,7 +3,8 @@ import { ShopContext } from "../context";
 import ProductCard from "./ProductCard";
 
 export default function ProductList() {
-  const { productList, setProductList } = useContext(ShopContext);
+  const { productList, setProductList, searchTerm, searchedProductList } =
+    useContext(ShopContext);
 
   const handleChange = (e) => {
     const selected = e.target.value;
@@ -51,9 +52,17 @@ export default function ProductList() {
 
       {/* <!-- Products Grid --> */}
       <div className="product-grid">
-        {productList.map((product) => (
+        {searchTerm.trim().length > 0 && searchedProductList.length > 0
+          ? searchedProductList.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))
+          : productList.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+
+        {/* {productList.map((product) => (
           <ProductCard key={product.id} product={product} />
-        ))}
+        ))} */}
       </div>
     </div>
   );
