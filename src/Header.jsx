@@ -10,11 +10,9 @@ export default function Header() {
 
   const {
     productList,
-    setProductList,
     cartProducts,
     searchTerm,
     setSearchTerm,
-    searchedProductList,
     setSearchedProductList,
     showCart,
     setShowCart,
@@ -82,7 +80,7 @@ export default function Header() {
           >
             <CartIcon showCart={showCart} />
             {cartProducts.length > 0 && (
-              <span className="rounded-full absolute top-[35px] right-[35px] md:top-[35px] md:right-[80px] lg:top-[40px] lg:right-[203px] bg-black text-white text-center p-[2px] w-[30px] h-[30px]">
+              <span className="rounded-full absolute top-[35px] right-[35px] md:top-[35px] md:right-[80px] lg:top-[40px] lg:right-[203px] 3xl:top-[40px] 3xl:right-[963px] bg-black text-white text-center p-[2px] w-[30px] h-[30px]">
                 {totalCartQuantity}
               </span>
             )}

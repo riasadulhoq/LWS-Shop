@@ -10,6 +10,9 @@ export default {
         "shop-black": "#000000",
         "shop-red": "#FF3333",
       },
+      screens: {
+        "3xl": "2000px",
+      },
     },
   },
   plugins: [],
