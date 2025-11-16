@@ -6,7 +6,40 @@ import Rating from "./Rating";
 export default function ProductCard({ product }) {
   const imageUrl = getImageUrl(product.image);
 
-  const { handleUpdateCart } = useContext(ShopContext);
+  const { productList, setProductList, handleUpdateCart } =
+    useContext(ShopContext);
+
+  const handleColourChange = (e, productObj) => {
+    const userSelectedColour = e.target.value;
+
+    const newProductList = productList.map((product) => {
+      if (product.id === productObj.id) {
+        return {
+          ...product,
+          selectedColour: userSelectedColour,
+        };
+      } else {
+        return product;
+      }
+    });
+    setProductList(newProductList);
+  };
+
+  const handleSizeChange = (e, productObj) => {
+    const userSelectedSize = e.target.value;
+
+    const newProductList = productList.map((product) => {
+      if (product.id === productObj.id) {
+        return {
+          ...product,
+          selectedSize: userSelectedSize,
+        };
+      } else {
+        return product;
+      }
+    });
+    setProductList(newProductList);
+  };
 
   return (
     <div className="bg-gray-100 rounded-lg overflow-hidden transition-transform hover:scale-[1.02] duration-300">
@@ -26,9 +59,38 @@ export default function ProductCard({ product }) {
               {product.rating}/5
             </span>
           </div>
+
           <span className="text-xs text-gray-700">
             ({product.quantity} pcs left)
           </span>
+        </div>
+        <div className="flex items-center space-x-2 my-2">
+          <span className="text-sm">Colour:</span>
+          <select
+            className="border rounded-md px-2 py-1 text-sm"
+            onChange={(e) => handleColourChange(e, product)}
+          >
+            <option value="">Select</option>
+            {product.colour.map((colour, idx) => (
+              <option key={idx} value={colour}>
+                {colour}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="flex items-center space-x-2 my-2">
+          <span className="text-sm">Size:</span>
+          <select
+            className="border rounded-md px-2 py-1 text-sm"
+            onChange={(e) => handleSizeChange(e, product)}
+          >
+            <option value="">Select</option>
+            {product.size.map((size, idx) => (
+              <option key={idx} value={size}>
+                {size}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="flex items-center">
           <p className="font-bold">${product.currentPrice}</p>

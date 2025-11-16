@@ -3,7 +3,7 @@ import { ShopContext } from "../context";
 import { getImageUrl } from "../utils/shop-utility";
 
 export default function CartProduct({ product }) {
-  //   console.log(product);
+  // console.log(product);
   const {
     productList,
     setProductList,
@@ -91,8 +91,10 @@ export default function CartProduct({ product }) {
             ×
           </span>
         </div>
-        <p className="text-sm text-gray-500">Size: {product.size}</p>
-        <p className="text-sm text-gray-500">Colour: {product.colour}</p>
+        <p className="text-sm text-gray-500">Size: {product.selectedSize}</p>
+        <p className="text-sm text-gray-500">
+          Colour: {product.selectedColour}
+        </p>
         <div className="flex justify-between items-center mt-2">
           <p className="font-bold">${product.currentPrice}</p>
           <div className="flex items-center space-x-2">
