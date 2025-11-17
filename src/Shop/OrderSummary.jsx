@@ -3,11 +3,17 @@ import { ShopContext } from "../context";
 import PromoIcon from "../SVG/PromoIcon";
 
 export default function OrderSummary() {
-  const { subTotal } = useContext(ShopContext);
+  const { cartState } = useContext(ShopContext);
 
-  const discount = (subTotal * 0.2).toFixed(0);
+  const discount = (cartState.subTotal * 0.2).toFixed(0);
   const deliveryFee =
-    subTotal > 1000 ? 50 : subTotal > 500 ? 30 : subTotal > 0 ? 15 : 0;
+    cartState.subTotal > 1000
+      ? 50
+      : cartState.subTotal > 500
+      ? 30
+      : cartState.subTotal > 0
+      ? 15
+      : 0;
   return (
     <div className="mt-6">
       <h3 className="font-bold text-lg mb-4">Order Summary</h3>
@@ -15,7 +21,7 @@ export default function OrderSummary() {
       <div className="space-y-2 mb-4">
         <div className="flex justify-between">
           <span className="text-gray-600">Subtotal</span>
-          <span className="font-medium">${subTotal}</span>
+          <span className="font-medium">${cartState.subTotal}</span>
         </div>
         <div className="flex justify-between text-red-500">
           <span>Discount (-20%)</span>
@@ -27,7 +33,7 @@ export default function OrderSummary() {
         </div>
         <div className="flex justify-between font-bold text-lg pt-2 border-t border-gray-200">
           <span>Total</span>
-          <span>${subTotal - discount + deliveryFee}</span>
+          <span>${cartState.subTotal - discount + deliveryFee}</span>
         </div>
       </div>
 

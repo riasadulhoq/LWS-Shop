@@ -4,20 +4,12 @@ import { getImageUrl } from "../utils/shop-utility";
 
 export default function CartProduct({ product }) {
   // console.log(product);
-  const {
-    productList,
-    setProductList,
-    handleUpdateCart,
-    cartProducts,
-    setCartProducts,
-    subTotal,
-    setSubTotal,
-  } = useContext(ShopContext);
+  const { cartState, cartDispatch, handleUpdateCart } = useContext(ShopContext);
   const imageUrl = getImageUrl(product.image);
 
-  const increaseCartQuantity = (productObj) => {
+  const handleIncreaseCartQuantity = (productObj) => {
     if (productObj.cartQuantity < productObj.quantity) {
-      const newProductList = productList.map((product) => {
+      const newProductList = cartState.productList.map((product) => {
         if (product.id === productObj.id) {
           return {
             ...product,
@@ -27,8 +19,7 @@ export default function CartProduct({ product }) {
           return product;
         }
       });
-      setProductList(newProductList);
-      const newCartProducts = cartProducts.map((product) => {
+      const newCartProducts = cartState.cartProducts.map((product) => {
         if (product.id === productObj.id) {
           return {
             ...product,
@@ -38,14 +29,19 @@ export default function CartProduct({ product }) {
           return product;
         }
       });
-      setCartProducts(newCartProducts);
-      setSubTotal(subTotal + productObj.currentPrice);
+
+      cartDispatch({
+        type: "INCREASE_CART_QUANTITY",
+        newProductList: newProductList,
+        newCartProducts: newCartProducts,
+        productObj: productObj,
+      });
     }
   };
 
-  const reduceCartQuantity = (productObj) => {
+  const handleReduceCartQuantity = (productObj) => {
     if (productObj.cartQuantity > 1) {
-      const newProductList = productList.map((product) => {
+      const newProductList = cartState.productList.map((product) => {
         if (product.id === productObj.id) {
           return {
             ...product,
@@ -55,9 +51,7 @@ export default function CartProduct({ product }) {
           return product;
         }
       });
-      setProductList(newProductList);
-
-      const newCartProducts = cartProducts.map((product) => {
+      const newCartProducts = cartState.cartProducts.map((product) => {
         if (product.id === productObj.id) {
           return {
             ...product,
@@ -67,8 +61,13 @@ export default function CartProduct({ product }) {
           return product;
         }
       });
-      setCartProducts(newCartProducts);
-      setSubTotal(subTotal - productObj.currentPrice);
+
+      cartDispatch({
+        type: "DECREASE_CART_QUANTITY",
+        newProductList: newProductList,
+        newCartProducts: newCartProducts,
+        productObj: productObj,
+      });
     }
   };
 
@@ -100,14 +99,14 @@ export default function CartProduct({ product }) {
           <div className="flex items-center space-x-2">
             <button
               className="w-6 h-6 bg-gray-100 rounded flex items-center justify-center"
-              onClick={() => reduceCartQuantity(product)}
+              onClick={() => handleReduceCartQuantity(product)}
             >
               −
             </button>
             <span className="text-sm">{product.cartQuantity}</span>
             <button
               className="w-6 h-6 bg-gray-100 rounded flex items-center justify-center"
-              onClick={() => increaseCartQuantity(product)}
+              onClick={() => handleIncreaseCartQuantity(product)}
             >
               +
             </button>

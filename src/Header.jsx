@@ -9,16 +9,14 @@ export default function Header() {
   // console.log(searchedProductList);
 
   const {
-    productList,
-    cartProducts,
+    cartState,
+    cartDispatch,
     searchTerm,
     setSearchTerm,
     setSearchedProductList,
-    showCart,
-    setShowCart,
   } = useContext(ShopContext);
 
-  const totalCartQuantity = cartProducts.reduce(
+  const totalCartQuantity = cartState.cartProducts.reduce(
     (accumulator, cartProduct) => accumulator + cartProduct.cartQuantity,
     0
   );
@@ -27,14 +25,16 @@ export default function Header() {
     const userSearch = e.target.value;
     setSearchTerm(userSearch);
 
-    const searchedProduct = [...productList].filter((product) => {
+    const searchedProduct = [...cartState.productList].filter((product) => {
       return product.title.toLowerCase().includes(searchTerm.toLowerCase());
     });
     setSearchedProductList(searchedProduct);
   };
 
   const handleShowCart = () => {
-    setShowCart(!showCart);
+    cartDispatch({
+      type: "DISPLAY_CART",
+    });
   };
 
   return (
@@ -78,9 +78,9 @@ export default function Header() {
             className="hover:text-gray-500 transition-colors"
             onClick={handleShowCart}
           >
-            <CartIcon showCart={showCart} />
-            {cartProducts.length > 0 && (
-              <span className="rounded-full absolute top-[35px] right-[35px] md:top-[35px] md:right-[80px] lg:top-[40px] lg:right-[203px] 3xl:top-[40px] 3xl:right-[963px] bg-black text-white text-center p-[2px] w-[30px] h-[30px]">
+            <CartIcon showCart={cartState.showCart} />
+            {cartState.cartProducts.length > 0 && (
+              <span className="rounded-full absolute top-[35px] right-[35px] md:top-[35px] md:right-[80px] lg:top-[40px] lg:right-[203px] 3xl:top-[40px] 3xl:right-[737px] bg-black text-white text-center p-[2px] w-[30px] h-[30px]">
                 {totalCartQuantity}
               </span>
             )}

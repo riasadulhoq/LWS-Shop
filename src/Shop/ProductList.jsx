@@ -4,14 +4,14 @@ import ProductCard from "./ProductCard";
 
 export default function ProductList() {
   const {
-    productList,
-    setProductList,
+    cartState,
+    cartDispatch,
     searchTerm,
     searchedProductList,
     setSearchedProductList,
   } = useContext(ShopContext);
 
-  const handleChange = (e) => {
+  const handleProductSorting = (e) => {
     const selected = e.target.value;
 
     let sortedProductList;
@@ -40,26 +40,30 @@ export default function ProductList() {
       setSearchedProductList(sortedProductList);
     } else {
       if (!selected) {
-        sortedProductList = [...productList];
+        sortedProductList = [...cartState.productList];
         // console.log(sortedProductList);
       } else if (selected === "mostPopular") {
-        sortedProductList = [...productList].sort(
+        sortedProductList = [...cartState.productList].sort(
           (a, b) => b.rating - a.rating
         );
       } else if (selected === "newest") {
-        sortedProductList = [...productList].sort(
+        sortedProductList = [...cartState.productList].sort(
           (a, b) => new Date(b.createdDate) - new Date(a.createdDate)
         );
       } else if (selected === "lowToHigh") {
-        sortedProductList = [...productList].sort(
+        sortedProductList = [...cartState.productList].sort(
           (a, b) => a.currentPrice - b.currentPrice
         );
       } else if (selected === "highToLow") {
-        sortedProductList = [...productList].sort(
+        sortedProductList = [...cartState.productList].sort(
           (a, b) => b.currentPrice - a.currentPrice
         );
       }
-      setProductList(sortedProductList);
+
+      cartDispatch({
+        type: "SORT_PRODUCTS",
+        sortedProductList: sortedProductList,
+      });
     }
 
     // if (!selected) {
@@ -90,7 +94,7 @@ export default function ProductList() {
           <span className="text-sm">Sort by:</span>
           <select
             className="border rounded-md px-2 py-1 text-sm"
-            onChange={handleChange}
+            onChange={handleProductSorting}
           >
             <option value="">Please Select</option>
             <option value="mostPopular">Most Popular</option>
@@ -115,7 +119,7 @@ export default function ProductList() {
             <ProductCard key={product.id} product={product} />
           ))}
         {!searchTerm.trim().length &&
-          productList.map((product) => (
+          cartState.productList.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         {/* {productList.map((product) => (

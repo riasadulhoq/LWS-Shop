@@ -6,13 +6,12 @@ import Rating from "./Rating";
 export default function ProductCard({ product }) {
   const imageUrl = getImageUrl(product.image);
 
-  const { productList, setProductList, handleUpdateCart } =
-    useContext(ShopContext);
+  const { cartState, cartDispatch, handleUpdateCart } = useContext(ShopContext);
 
   const handleColourChange = (e, productObj) => {
     const userSelectedColour = e.target.value;
 
-    const newProductList = productList.map((product) => {
+    const newProductList = cartState.productList.map((product) => {
       if (product.id === productObj.id) {
         return {
           ...product,
@@ -22,13 +21,17 @@ export default function ProductCard({ product }) {
         return product;
       }
     });
-    setProductList(newProductList);
+
+    cartDispatch({
+      type: "SELECT_COLOUR",
+      newProductList: newProductList,
+    });
   };
 
   const handleSizeChange = (e, productObj) => {
     const userSelectedSize = e.target.value;
 
-    const newProductList = productList.map((product) => {
+    const newProductList = cartState.productList.map((product) => {
       if (product.id === productObj.id) {
         return {
           ...product,
@@ -38,7 +41,11 @@ export default function ProductCard({ product }) {
         return product;
       }
     });
-    setProductList(newProductList);
+
+    cartDispatch({
+      type: "SELECT_SIZE",
+      newProductList: newProductList,
+    });
   };
 
   return (
