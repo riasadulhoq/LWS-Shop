@@ -21,19 +21,19 @@ export default function OrderSummary() {
       <div className="space-y-2 mb-4">
         <div className="flex justify-between">
           <span className="text-gray-600">Subtotal</span>
-          <span className="font-medium">${cartState.subTotal}</span>
+          <span className="font-medium">£{cartState.subTotal}</span>
         </div>
         <div className="flex justify-between text-red-500">
           <span>Discount (-20%)</span>
-          <span>-${discount}</span>
+          <span>-£{discount}</span>
         </div>
         <div className="flex justify-between">
           <span className="text-gray-600">Delivery Fee</span>
-          <span className="font-medium">${deliveryFee}</span>
+          <span className="font-medium">£{deliveryFee}</span>
         </div>
         <div className="flex justify-between font-bold text-lg pt-2 border-t border-gray-200">
           <span>Total</span>
-          <span>${cartState.subTotal - discount + deliveryFee}</span>
+          <span>£{cartState.subTotal - discount + deliveryFee}</span>
         </div>
       </div>
 

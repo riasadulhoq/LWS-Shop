@@ -21,22 +21,9 @@ function App() {
 
     if (!found) {
       if (productObj.selectedColour && productObj.selectedSize) {
-        const newProductList = cartState.productList.map((product) => {
-          if (product.id === productObj.id) {
-            return {
-              ...product,
-              quantity: product.quantity - 1,
-              isAddedToCart: true,
-            };
-          } else {
-            return product;
-          }
-        });
-
         cartDispatch({
           type: "ADD_TO_CART",
-          productObj: productObj,
-          newProductList: newProductList,
+          payload: productObj,
         });
       } else {
         console.warn(
@@ -44,31 +31,9 @@ function App() {
         );
       }
     } else {
-      const removedProduct = cartState.cartProducts.find(
-        (product) => product.id === productObj.id
-      );
-      const newCartProducts = cartState.cartProducts.filter((product) => {
-        return product.id != productObj.id;
-      });
-      const newProductList = cartState.productList.map((product) => {
-        if (product.id === productObj.id) {
-          return {
-            ...product,
-            selectedColour: "",
-            selectedSize: "",
-            quantity: product.quantity + removedProduct.cartQuantity,
-            isAddedToCart: false,
-          };
-        } else {
-          return product;
-        }
-      });
       cartDispatch({
         type: "REMOVE_FROM_CART",
-        newProductList: newProductList,
-        newCartProducts: newCartProducts,
-        removedProduct: removedProduct,
-        productObj: productObj,
+        payload: productObj,
       });
     }
   };

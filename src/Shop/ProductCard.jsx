@@ -6,45 +6,21 @@ import Rating from "./Rating";
 export default function ProductCard({ product }) {
   const imageUrl = getImageUrl(product.image);
 
-  const { cartState, cartDispatch, handleUpdateCart } = useContext(ShopContext);
+  const { cartDispatch, handleUpdateCart } = useContext(ShopContext);
 
   const handleColourChange = (e, productObj) => {
-    const userSelectedColour = e.target.value;
-
-    const newProductList = cartState.productList.map((product) => {
-      if (product.id === productObj.id) {
-        return {
-          ...product,
-          selectedColour: userSelectedColour,
-        };
-      } else {
-        return product;
-      }
-    });
-
     cartDispatch({
       type: "SELECT_COLOUR",
-      newProductList: newProductList,
+      event: e,
+      payload: productObj,
     });
   };
 
   const handleSizeChange = (e, productObj) => {
-    const userSelectedSize = e.target.value;
-
-    const newProductList = cartState.productList.map((product) => {
-      if (product.id === productObj.id) {
-        return {
-          ...product,
-          selectedSize: userSelectedSize,
-        };
-      } else {
-        return product;
-      }
-    });
-
     cartDispatch({
       type: "SELECT_SIZE",
-      newProductList: newProductList,
+      event: e,
+      payload: productObj,
     });
   };
 
@@ -100,7 +76,7 @@ export default function ProductCard({ product }) {
           </select>
         </div>
         <div className="flex items-center">
-          <p className="font-bold">${product.currentPrice}</p>
+          <p className="font-bold">£{product.currentPrice}</p>
           <p className="text-gray-400 line-through ml-2">
             {product.previousPrice}
           </p>

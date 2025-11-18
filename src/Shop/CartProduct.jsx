@@ -4,69 +4,23 @@ import { getImageUrl } from "../utils/shop-utility";
 
 export default function CartProduct({ product }) {
   // console.log(product);
-  const { cartState, cartDispatch, handleUpdateCart } = useContext(ShopContext);
+  const { cartDispatch, handleUpdateCart } = useContext(ShopContext);
   const imageUrl = getImageUrl(product.image);
 
   const handleIncreaseCartQuantity = (productObj) => {
     if (productObj.cartQuantity < productObj.quantity) {
-      const newProductList = cartState.productList.map((product) => {
-        if (product.id === productObj.id) {
-          return {
-            ...product,
-            quantity: product.quantity - 1,
-          };
-        } else {
-          return product;
-        }
-      });
-      const newCartProducts = cartState.cartProducts.map((product) => {
-        if (product.id === productObj.id) {
-          return {
-            ...product,
-            cartQuantity: product.cartQuantity + 1,
-          };
-        } else {
-          return product;
-        }
-      });
-
       cartDispatch({
         type: "INCREASE_CART_QUANTITY",
-        newProductList: newProductList,
-        newCartProducts: newCartProducts,
-        productObj: productObj,
+        payload: productObj,
       });
     }
   };
 
   const handleReduceCartQuantity = (productObj) => {
     if (productObj.cartQuantity > 1) {
-      const newProductList = cartState.productList.map((product) => {
-        if (product.id === productObj.id) {
-          return {
-            ...product,
-            quantity: product.quantity + 1,
-          };
-        } else {
-          return product;
-        }
-      });
-      const newCartProducts = cartState.cartProducts.map((product) => {
-        if (product.id === productObj.id) {
-          return {
-            ...product,
-            cartQuantity: product.cartQuantity - 1,
-          };
-        } else {
-          return product;
-        }
-      });
-
       cartDispatch({
         type: "DECREASE_CART_QUANTITY",
-        newProductList: newProductList,
-        newCartProducts: newCartProducts,
-        productObj: productObj,
+        payload: productObj,
       });
     }
   };
@@ -90,12 +44,12 @@ export default function CartProduct({ product }) {
             ×
           </span>
         </div>
-        <p className="text-sm text-gray-500">Size: {product.selectedSize}</p>
         <p className="text-sm text-gray-500">
           Colour: {product.selectedColour}
         </p>
+        <p className="text-sm text-gray-500">Size: {product.selectedSize}</p>
         <div className="flex justify-between items-center mt-2">
-          <p className="font-bold">${product.currentPrice}</p>
+          <p className="font-bold">£{product.currentPrice}</p>
           <div className="flex items-center space-x-2">
             <button
               className="w-6 h-6 bg-gray-100 rounded flex items-center justify-center"

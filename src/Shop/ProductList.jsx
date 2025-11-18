@@ -62,7 +62,7 @@ export default function ProductList() {
 
       cartDispatch({
         type: "SORT_PRODUCTS",
-        sortedProductList: sortedProductList,
+        payload: sortedProductList,
       });
     }
 

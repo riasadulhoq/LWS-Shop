@@ -11,7 +11,7 @@ export default {
         "shop-red": "#FF3333",
       },
       screens: {
-        "3xl": "2000px",
+        "3xl": "1930px",
       },
     },
   },
